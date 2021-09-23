@@ -51,7 +51,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 System.out.println(cpf);
                 System.out.println(user.getCpf());
                 if (perfil.equals("Admin")) {
-                    TelaPrincipal principal = new TelaPrincipal();
+                    TelaPrincipal principal = new TelaPrincipal(user);
                     principal.setVisible(true);
                     TelaPrincipal.mPlanoCriar.setEnabled(true);
                     TelaPrincipal.mUsuarioAdd.setEnabled(true);
@@ -59,7 +59,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     conexao.close();
 
                 } else {
-                    TelaPrincipal principal = new TelaPrincipal();
+                    TelaPrincipal principal = new TelaPrincipal(user);
                     principal.setVisible(true);
                     this.dispose();
                     conexao.close();

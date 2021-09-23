@@ -9,14 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
 public class TelaPrincipal extends javax.swing.JFrame {
-
+    
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-
-    public TelaPrincipal() {
+    User userP;
+    public TelaPrincipal(User user) {
         conexao = ModuloConexao.conector();
         initComponents();
+        userP = user;
     }
 
     
@@ -31,7 +32,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JPanel entUsuario = new JPanel();
             entUsuario.add(rotulo);
             entUsuario.add(password);
-
             pst = conexao.prepareStatement(sql);
             pst.setString(1, JOptionPane.showInputDialog("Confirme seu Usuario"));
             JOptionPane.showMessageDialog(null, entUsuario, "Senha", JOptionPane.PLAIN_MESSAGE);
@@ -39,6 +39,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             rs = pst.executeQuery();
 
             if (rs.next()) {
+                
                 TelaCadastrarCartao CartaoCadastrar = new TelaCadastrarCartao();
                 CartaoCadastrar.setVisible(true);
                 desktop.add(CartaoCadastrar);
@@ -208,7 +209,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mAjudaActionPerformed
 
     private void mUsuarioMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioMActionPerformed
-        TelaUsuario usuario = new TelaUsuario();
+        TelaUsuario usuario = new TelaUsuario(userP);
         usuario.setVisible(true);
         desktop.add(usuario);
 
@@ -260,7 +261,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaPrincipal().setVisible(true);
+                new TelaPrincipal(null).setVisible(true);
             }
         });
     }
