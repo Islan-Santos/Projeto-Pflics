@@ -1,5 +1,7 @@
 package br.com.pflics.Telas;
 
+import br.com.pflics.codgin.User;
+import br.com.pflics.codgin.Usuario;
 import java.sql.*;
 import br.com.pflics.dal.ModuloConexao;
 import javax.swing.JOptionPane;
@@ -7,22 +9,38 @@ import javax.swing.JOptionPane;
 public class TelaPlano extends javax.swing.JInternalFrame {
 
     Connection conexao = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-
-    public TelaPlano() {
+    PreparedStatement pst, pst2 = null;
+    ResultSet rs, rs2 = null;
+    User userPl;
+    
+    Usuario usuario = new Usuario();
+    
+    public TelaPlano(User user) {
+        userPl = user;
         initComponents();
         conexao = ModuloConexao.conector();
+        plano();
     }
 
-    public void olharplano() {
+    public void plano() {
 
         String sql = "select * from plano where idPlano = ?";
-
+        String sql2 = "select * from usuario where cpfUsuario = ?";
         try {
-
+            
+            pst2 = conexao.prepareStatement(sql2);
+            pst2.setString(1, userPl.getCpf());
+            
+            rs2 = pst2.executeQuery();
+            
+            if (rs2.next()) {
+                String idPlano = rs2.getString(2);
+                
+                usuario.setIdPlano(idPlano);
+            }
+            
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, idPlano.getText());
+            pst.setString(1, usuario.getIdPlano());
 
             rs = pst.executeQuery();
 
@@ -36,7 +54,7 @@ public class TelaPlano extends javax.swing.JInternalFrame {
                 txtDescricao.setText(" ");
                 txtPreco.setText(" ");
                 JOptionPane.showMessageDialog(null,"Plano inexistente.");
-
+                
             }
 
         } catch (Exception e) {
@@ -54,9 +72,6 @@ public class TelaPlano extends javax.swing.JInternalFrame {
         txtNomePlano = new javax.swing.JTextField();
         txtPreco = new javax.swing.JTextField();
         txtDescricao = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        idPlano = new javax.swing.JTextField();
-        btnOlhar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -84,28 +99,12 @@ public class TelaPlano extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Informe o codigo de identificação do Plano:");
-
-        btnOlhar.setText("Olhar Plano");
-        btnOlhar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOlharActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(jLabel4)
-                .addGap(56, 56, 56)
-                .addComponent(idPlano, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addGap(124, 124, 124))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(138, 138, 138)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -114,23 +113,15 @@ public class TelaPlano extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1))
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNomePlano)
+                    .addComponent(txtNomePlano, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addComponent(txtDescricao)
                     .addComponent(txtPreco))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnOlhar)
-                .addGap(288, 288, 288))
+                .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(idPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(81, 81, 81)
+                .addContainerGap(101, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNomePlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -142,9 +133,7 @@ public class TelaPlano extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(btnOlhar)
-                .addGap(45, 45, 45))
+                .addGap(147, 147, 147))
         );
 
         pack();
@@ -153,19 +142,11 @@ public class TelaPlano extends javax.swing.JInternalFrame {
     private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
      }//GEN-LAST:event_txtDescricaoActionPerformed
 
-    private void btnOlharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlharActionPerformed
-
-        olharplano();
-    }//GEN-LAST:event_btnOlharActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnOlhar;
-    private javax.swing.JTextField idPlano;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtNomePlano;
     private javax.swing.JTextField txtPreco;

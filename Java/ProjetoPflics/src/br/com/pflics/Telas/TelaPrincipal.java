@@ -219,12 +219,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaUsuarioCadastrar cadastrar = new TelaUsuarioCadastrar();
         cadastrar.setVisible(true);
         desktop.add(cadastrar);
+        
 
     }//GEN-LAST:event_mUsuarioAddActionPerformed
 
     private void mPlanoMplanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPlanoMplanoActionPerformed
 
-        TelaPlano plano = new TelaPlano();
+        TelaPlano plano = new TelaPlano(userP);
         plano.setVisible(true);
         desktop.add(plano);
 
