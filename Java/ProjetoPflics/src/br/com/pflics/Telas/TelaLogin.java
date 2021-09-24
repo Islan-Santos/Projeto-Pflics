@@ -47,8 +47,8 @@ public class TelaLogin extends javax.swing.JFrame {
                 user.setPerfil(perfil);
                 user.setCpf(cpf);
 
-                System.out.println(perfil);
-                System.out.println(cpf);
+                //System.out.println(perfil);
+                //System.out.println(cpf);
                 System.out.println(user.getCpf());
                 if (perfil.equals("Admin")) {
                     TelaPrincipal principal = new TelaPrincipal(user);
