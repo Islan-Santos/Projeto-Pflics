@@ -66,6 +66,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         mPlano = new javax.swing.JMenu();
         mPlanoMplano = new javax.swing.JMenuItem();
         mPlanoCriar = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         mAjuda = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
@@ -134,6 +135,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         mPlano.add(mPlanoCriar);
+
+        jMenuItem1.setText("Alterar Meu Plano");
+        mPlano.add(jMenuItem1);
 
         jMenuBar1.add(mPlano);
 
@@ -274,6 +278,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem mAjuda;
