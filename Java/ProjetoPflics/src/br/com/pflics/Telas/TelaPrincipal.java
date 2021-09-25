@@ -4,54 +4,19 @@ import br.com.pflics.codgin.User;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import br.com.pflics.dal.ModuloConexao;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
+
 
 public class TelaPrincipal extends javax.swing.JFrame {
-    
+
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
     User userP;
+
     public TelaPrincipal(User user) {
         conexao = ModuloConexao.conector();
         initComponents();
         userP = user;
-    }
-
-    
-
-    public void CadCartão() {
-
-        String sql = "select * from Login where login=? and senha=? ";
-        try {
-            JPasswordField password = new JPasswordField(10);
-            password.setEchoChar('*');
-            JLabel rotulo = new JLabel("Entre com a senha:");
-            JPanel entUsuario = new JPanel();
-            entUsuario.add(rotulo);
-            entUsuario.add(password);
-            pst = conexao.prepareStatement(sql);
-            pst.setString(1, JOptionPane.showInputDialog("Confirme seu Usuario"));
-            JOptionPane.showMessageDialog(null, entUsuario, "Senha", JOptionPane.PLAIN_MESSAGE);
-            pst.setString(2, password.getText());
-            rs = pst.executeQuery();
-
-            if (rs.next()) {
-                
-                TelaCadastrarCartao CartaoCadastrar = new TelaCadastrarCartao();
-                CartaoCadastrar.setVisible(true);
-                desktop.add(CartaoCadastrar);
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuario e/ou Senha inválidos");
-
-            }
-        } catch (Exception e) {
-
-        }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -73,7 +38,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         cartaoAdd = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pflcs");
@@ -174,10 +138,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Endereço");
 
         jMenuItem2.setText("Endereço");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
-
-        jMenuItem3.setText("Endereço de Cobrança");
-        jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
 
@@ -223,7 +189,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaUsuarioCadastrar cadastrar = new TelaUsuarioCadastrar();
         cadastrar.setVisible(true);
         desktop.add(cadastrar);
-        
+
 
     }//GEN-LAST:event_mUsuarioAddActionPerformed
 
@@ -242,8 +208,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mPlanoCriarActionPerformed
 
     private void cartaoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartaoAddActionPerformed
-        CadCartão();
+        TelaCartao CartaoCadastrar = new TelaCartao(userP);
+        CartaoCadastrar.setVisible(true);
+        desktop.add(CartaoCadastrar);
     }//GEN-LAST:event_cartaoAddActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        TelaEndereco Endereco = new TelaEndereco(userP);
+        Endereco.setVisible(true);
+        desktop.add(Endereco);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     public static void main(String args[]) {
 
@@ -280,7 +254,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem mAjuda;
     private javax.swing.JMenu mPlano;
     public static javax.swing.JMenuItem mPlanoCriar;

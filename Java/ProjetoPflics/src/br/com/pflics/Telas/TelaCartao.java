@@ -1,24 +1,88 @@
 package br.com.pflics.Telas;
 
+import br.com.pflics.codgin.User;
 import java.sql.*;
 import br.com.pflics.dal.ModuloConexao;
+import javax.swing.JOptionPane;
 
-
-public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
+public class TelaCartao extends javax.swing.JInternalFrame {
 
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+    User userC;
 
-    public TelaCadastrarCartao() {
+    public TelaCartao(User user) {
         initComponents();
         conexao = ModuloConexao.conector();
+        userC = user;
+        CartaoProcurar();
     }
-    
-    public void CadCartao(){
-        
-        
 
+    public void CadCartao() {
+
+        String sql = "insert into CARTAO(FK_cpfUsuario, titularCartao, cpfTitular, numero, mesValidade, anoValidade, cvv) values (?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+
+            pst = conexao.prepareStatement(sql);
+
+            pst.setString(1, userC.getCpf());
+            pst.setString(2, txtNome.getText());
+            pst.setString(3, txtCPFT.getText());
+            pst.setString(4, txtNumCar.getText());
+            pst.setString(5, txtMes.getText());
+            pst.setString(6, txtAno.getText());
+            pst.setString(7, txtCvv.getText());
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possivel Cadastrar");
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(e);
+        }
+
+    }
+
+    public void CartaoProcurar() {
+        String sql = "select * from CARTAO where FK_cpfUsuario = ?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, userC.getCpf());
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                txtNome.setText(rs.getString(3));
+                txtCPFT.setText(rs.getString(4));
+                txtNumCar.setText(rs.getString(5));
+                txtMes.setText(rs.getString(6));
+                txtAno.setText(rs.getString(7));
+                txtCvv.setText(rs.getString(8));
+
+                txtNome.setEnabled(false);
+                txtCPFT.setEnabled(false);
+                txtNumCar.setEnabled(false);
+                txtMes.setEnabled(false);
+                txtAno.setEnabled(false);
+                txtCvv.setEnabled(false);
+
+                btnCadCard.setEnabled(false);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Não tem Cartão Cadastrado, Prencha os dados e click em Cadastrar!");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
     }
 
@@ -26,16 +90,16 @@ public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFormattedTextField5 = new javax.swing.JFormattedTextField();
+        txtCvv = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
         txtCPFT = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         txtNumCar = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        txtMes = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        txtAno = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         btnCadCard = new javax.swing.JButton();
 
@@ -46,7 +110,7 @@ public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
         setTitle("Cartão");
 
         try {
-            jFormattedTextField5.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
+            txtCvv.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -73,7 +137,7 @@ public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
         }
 
         try {
-            jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##")));
+            txtMes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -82,7 +146,7 @@ public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
         jLabel2.setText("Nome do Tutular");
 
         try {
-            jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##")));
+            txtAno.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -116,10 +180,10 @@ public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
                             .addComponent(txtNome)
                             .addComponent(txtNumCar)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCvv, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCPFT, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(102, 102, 102)
@@ -144,12 +208,12 @@ public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCvv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(btnCadCard)
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -159,22 +223,22 @@ public class TelaCadastrarCartao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadCardActionPerformed
-
+        CadCartao();
 
     }//GEN-LAST:event_btnCadCardActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadCard;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
-    private javax.swing.JFormattedTextField jFormattedTextField5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JFormattedTextField txtAno;
     private javax.swing.JFormattedTextField txtCPFT;
+    private javax.swing.JFormattedTextField txtCvv;
+    private javax.swing.JFormattedTextField txtMes;
     private javax.swing.JTextField txtNome;
     private javax.swing.JFormattedTextField txtNumCar;
     // End of variables declaration//GEN-END:variables

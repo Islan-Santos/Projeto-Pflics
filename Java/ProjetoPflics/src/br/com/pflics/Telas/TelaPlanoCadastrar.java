@@ -13,7 +13,6 @@ public class TelaPlanoCadastrar extends javax.swing.JInternalFrame {
     public TelaPlanoCadastrar() {
         initComponents();
         conexao = ModuloConexao.conector();
-
     }
 
     public void CadastrarPlano() {
