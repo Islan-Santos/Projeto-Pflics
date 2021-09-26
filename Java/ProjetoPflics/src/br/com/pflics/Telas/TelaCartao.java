@@ -26,18 +26,21 @@ public class TelaCartao extends javax.swing.JInternalFrame {
         try {
 
             pst = conexao.prepareStatement(sql);
-
+            String cpf = txtCPFT.getText();
+            cpf = cpf.replace(".", "");
+            cpf = cpf.replace("-", "");
+            
             pst.setString(1, userC.getCpf());
             pst.setString(2, txtNome.getText());
-            pst.setString(3, txtCPFT.getText());
+            pst.setString(3, cpf);
             pst.setString(4, txtNumCar.getText());
             pst.setString(5, txtMes.getText());
             pst.setString(6, txtAno.getText());
             pst.setString(7, txtCvv.getText());
 
-            rs = pst.executeQuery();
+            int a = pst.executeUpdate();
 
-            if (rs.next()) {
+            if (a == 1) {
                 JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
 
             } else {

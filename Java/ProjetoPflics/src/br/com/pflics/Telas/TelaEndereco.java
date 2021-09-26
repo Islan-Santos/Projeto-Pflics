@@ -34,9 +34,9 @@ public class TelaEndereco extends javax.swing.JInternalFrame {
             pst.setString(6, txtCidade.getText());
             pst.setString(7, txtPais.getText());
 
-            rs = pst.executeQuery();
+            int a = pst.executeUpdate();
 
-            if (rs.next()) {
+            if (a == 1) {
                 JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
 
             } else {
@@ -74,7 +74,7 @@ public class TelaEndereco extends javax.swing.JInternalFrame {
                 txtBairro.setEditable(false);
                 txtCidade.setEditable(false);
                 txtPais.setEditable(false);
-                
+
                 btnCadastrar.setEnabled(false);
 
             } else {
