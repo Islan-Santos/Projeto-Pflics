@@ -43,7 +43,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setResizable(false);
 
         desktop.setPreferredSize(new java.awt.Dimension(760, 400));
-
+		//Islan Passou Aqui XD
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
@@ -79,7 +79,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(mUsuarios);
 
         mPlano.setText("Plano");
-
+		//Islan Passou Aqui XD
         mPlanoMplano.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         mPlanoMplano.setText("Meu Plano");
         mPlanoMplano.addActionListener(new java.awt.event.ActionListener() {
@@ -248,6 +248,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    //Islan Passou Aqui XD
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem mAjuda;
     private javax.swing.JMenu mPlano;
