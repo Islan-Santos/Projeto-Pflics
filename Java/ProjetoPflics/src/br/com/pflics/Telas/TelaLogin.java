@@ -117,7 +117,7 @@ public class TelaLogin extends javax.swing.JFrame {
         });
 
         lblStats.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/pflics/icon/BDoff.png"))); // NOI18N
-
+		//Islan Passou Aqui XD
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
